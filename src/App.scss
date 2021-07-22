@@ -1,0 +1,83 @@
+.App {
+  text-align: center;
+  font-family: "Ringside Extra Wide SSm A", "Ringside Extra Wide SSm B";
+  font-style: normal;
+  font-weight: 500;
+}
+
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.recipes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+h1 {
+  font-family: "Ringside Extra Wide SSm A", "Ringside Extra Wide SSm B";
+  font-style: normal;
+  font-weight: 500;
+}
+
+h2 {
+  font-family: "Ringside Extra Wide SSm A", "Ringside Extra Wide SSm B";
+  font-style: normal;
+  font-weight: 500;
+  text-shadow: 0 0 2.5rem black;
+}
+
+h3 {
+  font-family: "Ringside Extra Wide SSm A", "Ringside Extra Wide SSm B";
+  font-style: normal;
+  font-weight: 500;
+  text-shadow: 0 0 2.5rem black;
+}
+
+.home {
+  // this creates a background image
+  background-image: url("./assets/pasta.jpg");
+}
+
+.recipes-container {
+  background-image: url('./assets/recipe.jpg');
+  background-size: cover;
+  background-position: center center;
+  height: 34rem;
+}
+
+.about-container {
+  background-image: url('./assets/about.jpg');
+  background-size: cover;
+  background-position: 25% 25%;
+  height: 39rem;
+}
+
+.chef-container {
+  background-image: url('./assets/chef.jpg');
+  background-size: cover;
+  background-position: center center;
+  height: 39rem;
+}
+
+
+.nutrition-container {
+  background-image: url('./assets/nutrition.jpg');
+  background-size: cover;
+  background-position: 25% 25%;
+  height: 34rem;
+}
+
+.cocktail-container {
+  background-image: url('./assets/cocktail.jpg');
+  background-size: cover;
+  background-position: center center;
+  height: 34rem;
+}
+
+.progress {
+  color: black
+}
+
