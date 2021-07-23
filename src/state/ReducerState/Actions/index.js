@@ -51,7 +51,7 @@ export const FETCH_USER_FAILURE = "FETCH_USER_FAILURE";
 export const fetchProducts = () => (dispatch) => {
   dispatch({ type: FETCH_USER_LOADING });
   axiosWithAuth()
-    .get("/api/products")
+    .get("https://team-amazing.herokuapp.com/api/items")
     .then((res) =>
       dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: res.data })
     )
@@ -61,7 +61,7 @@ export const fetchProducts = () => (dispatch) => {
 export const createProducts = (newProduct, id) => (dispatch) => {
   dispatch({ type: CREATE_PRODUCT_START });
   axiosWithAuth()
-    .post(`/api/${id}products`, newProduct)
+    .post(`https://team-amazing.herokuapp.com/api/items`, newProduct)
     .then((res) =>
       dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: res.data })
     )
@@ -71,9 +71,7 @@ export const createProducts = (newProduct, id) => (dispatch) => {
 export const fetchUser = () => (dispatch) => {
   dispatch({ type: FETCH_USER_LOADING });
   axiosWithAuth()
-    .get("/api/user")
-    .then((res) =>
-      dispatch({ type: FETCH_USER_SUCCESS, payload: res.data })
-    )
+    .get("https://team-amazing.herokuapp.com/api/auth/login")
+    .then((res) => dispatch({ type: FETCH_USER_SUCCESS, payload: res.data }))
     .catch((err) => dispatch({ type: FETCH_USER_FAILURE, payload: err }));
 };
