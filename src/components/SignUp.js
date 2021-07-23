@@ -87,7 +87,7 @@ export default function SignUp() {
             password: form.password.trim(),
             isOwner: form.isOwner,
         };
-        console.log('newUser', newUser);
+        //console.log('newUser', newUser);
         axios
             .post("https://saudi-market-app.herokuapp.com/api/auth/register", newUser)
             .then((res) => {
@@ -148,11 +148,9 @@ export default function SignUp() {
                             <input type = "checkbox" name = "isOwner" value = {form.isOwner} onChange={onChange}/>
                         </label>
                         <div className="submitButton">
-                            <ButtonDisplay disabled={disabled}>Submit</ButtonDisplay>
+                            <ButtonDisplay onSubmit={submit} disabled={disabled}>Submit</ButtonDisplay>
                         </div>
                     </LabelDisplay>
-
-
                 </form>
 
             </div>

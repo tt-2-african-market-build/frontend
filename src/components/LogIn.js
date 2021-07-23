@@ -7,10 +7,20 @@ import styled from "styled-components";
 
 let schema = yup.object().shape({
     username: yup.string().required("Please Enter Name").min(6, "User Name must be at least 6 characters"),
-    password: yup.string().required("Please Enter a password").min(8, "Enter at least 8 Characters"),
-
-
+    password: yup.string().required("Please Enter a password").min(8, "Enter at least 8 Characters for Password")
 })
+const ButtonDisplay = styled.button` 
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  &:disabled {
+    color: grey;
+    opacity: 0.7;
+    cursor: default;`
 
 const StyledDisplay = styled.div`
 padding-top: 120px;
@@ -25,16 +35,21 @@ padding-top: 120px;
   color: antiquewhite;
 `
 export default function LogIn() {
+    //set form to be empty to begin
     const initialFormValues =
         {
             username: "",
             password: "",
 
         }
+        // pass empty values to state of form
     const [form, setForm] = useState(initialFormValues);
+    // have submit button be disabled until username and password requirements are satisfied
     const [disabled, setDisabled] = useState(true);
+    //set up form for error tracking
     const [errors, setErrors] = useState((initialFormValues));
 
+    //set errors by validating with yup schema
     const setFormErrors = (name, value) => {
         //console.log(name)
         yup
@@ -43,6 +58,7 @@ export default function LogIn() {
             .then(() => setErrors({...errors, [name]: ""}))
             .catch((err) => setErrors({...errors, [name]: err.errors[0]}))
     }
+    //
     const onChange = (e) =>
     {
         const { name, type, value, checked } = e.target;
@@ -51,22 +67,23 @@ export default function LogIn() {
 
         setFormErrors(name, realValue);
         setForm({...form, [name]: realValue });
-        //console.log(`${name} of type ${type} has changed to ${realValue}`)
+        console.log(`${name} of type ${type} has changed to ${realValue}`)
     };
 
     const submit = (e) => {
         e.preventDefault();
-
-        const newUser = {
+        console.log(e);
+        const currentUser = {
             username: form.username.trim(),
             password: form.password.trim(),
-            isOwner: form.isOwner,
         };
-        console.log('newUser', newUser);
+        console.log(currentUser);
         axios
-            .post("https://saudi-market-app.herokuapp.com/api/auth/login", newUser)
+            .post("https://saudi-market-app.herokuapp.com/api/auth/login", currentUser)
             .then((res) => {
-                setForm(initialFormValues);
+                setForm(initialFormValues)
+
+
 
             })
             .catch((error) => {
@@ -74,8 +91,10 @@ export default function LogIn() {
             } );
     };
 
+    //check is schema is valid and allow user to submit
     useEffect(() => {
         schema.isValid(form).then((valid) => setDisabled(!valid));
+        console.log(`form has changed`)
     }, [form]);
     return (
         <React.Fragment>
@@ -83,15 +102,25 @@ export default function LogIn() {
       <div className={"signup-container bg-black  w-screen flex flex-col justify-center align-center "}>
       <h1 className={"text-white mx-auto -mt-10 text-5xl"}>Log In To Your Account Below</h1>
           <StyledDisplay>
-              <form>
+              <form onSubmit={submit}>
                   <label>
                       User:
-                      <input type = "text" name = "username" value = {form.user}/>
+                      <input type = "text" name = "username" value = {form.username} onChange={onChange}/>
                   </label>
+
                   <label>
                       Password:
-                      <input type = "text" name = "password" value = {form.password}/>
+                      <input type = "text" name = "password" value = {form.password} onChange={onChange}/>
                   </label>
+                <br/>
+              <ButtonDisplay disabled={disabled}>Submit</ButtonDisplay>
+              <div style={{ color: "whitesmoke" }}>
+                  <div>{errors.username}</div>
+                  <br/>
+                  <div style={{ color: "whitesmoke" }}>
+                      <div>{errors.password}</div>
+                  </div>
+              </div>
               </form>
           </StyledDisplay>
       </div>
