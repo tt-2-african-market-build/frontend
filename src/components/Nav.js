@@ -69,15 +69,15 @@ export default function Nav() {
             <EmojiPeopleIcon />
             </ListItemIcon>
             <Link to={"signup"} onClick={handleDrawerClose}>
-              <ListItemText primary="SignUp" />
+              <ListItemText primary="Sign Up" />
             </Link>
           </ListItem>
           <ListItem button>
             <ListItemIcon>
              <LibraryBooksIcon />
             </ListItemIcon>
-            <Link to={"chef"} onClick={handleDrawerClose}>
-              <ListItemText primary="Chef's Manifesto" />
+            <Link to={"login"} onClick={handleDrawerClose}>
+              <ListItemText primary="Log In" />
             </Link>
           </ListItem>
           <ListItem button>

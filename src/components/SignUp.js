@@ -32,11 +32,11 @@ const LabelDisplay = styled.div`
 
 
 let schema = yup.object().shape({
-    user: yup.string().required("Please Enter Name").min(6, "User Name must be at least 6 characters"),
+    username: yup.string().required("Please Enter Name").min(6, "User Name must be at least 6 characters"),
     email: yup.string().required("Please Enter an email Address").email(),
     password: yup.string().required("Please Enter a password").min(8, "Enter at least 8 Characters"),
     //passwordConfirmation: yup.string().required("Please Enter a password").min(8, "Enter at least 8 Characters").oneOf([yup.ref('password')], 'Passwords must match'),
-    ownerAccount: yup.bool().oneOf([true, false])
+    isOwner: yup.bool().oneOf([true, false])
 
 
 })
@@ -45,22 +45,19 @@ export default function SignUp() {
     const [users, setUsers] = useState([]);
     const initialFormValues =
         {
-            id : "",
-            user: "",
+
+            username: "",
             email: "",
             password: "",
-            //passwordConfirmation: "",
-            ownerAccount: false
+            isOwner: false
         }
     const [form, setForm] = useState(initialFormValues);
     const [disabled, setDisabled] = useState(true);
     const [errors, setErrors] = useState({
-        id: "",
-        user: "",
+        username: "",
         email: "",
         password: "",
-        //passwordConfirmation: "",
-        ownerAccount: false
+        isOwner: false
     });
     const setFormErrors = (name, value) => {
         //console.log(name)
@@ -78,31 +75,34 @@ export default function SignUp() {
 
         setFormErrors(name, realValue);
         setForm({...form, [name]: realValue });
-        console.log(`${name} of type ${type} has changed to ${realValue}`)
+        //console.log(`${name} of type ${type} has changed to ${realValue}`)
     };
 
     const submit = (e) => {
         e.preventDefault();
 
         const newUser = {
-            user: form.user.trim(),
+            username: form.username.trim(),
             email: form.email.trim(),
             password: form.password.trim(),
-            //passwordConfirmation: form.passwordConfirmation.trim(),
-            ownerAccount: form.ownerAccount,
+            isOwner: form.isOwner,
         };
-
+        console.log('newUser', newUser);
         axios
-            .post("https://team-amazing.herokuapp.com/api/auth/register", newUser)
+            .post("https://saudi-market-app.herokuapp.com/api/auth/register", newUser)
             .then((res) => {
                 setForm(initialFormValues);
-                console.log(res.data)
+                //console.log(res)
+                console.log('newUser', newUser);
                 setUsers([...users, res.data]);
-                console.log(users)
+                //console.log(users)
             })
-            .catch((err) => {
-                debugger;
-            });
+            .catch((error) => {
+                //console.log( error.response.request.response )
+                console.log(error);
+                // console.log(error.response.request.response);
+                //console.log( error.response.request._response );
+            } );
     };
 
     useEffect(() => {
@@ -123,7 +123,7 @@ export default function SignUp() {
                     <LabelDisplay>
                         <label>
                             User:
-                            <input type = "text" name = "user" value = {form.user} onChange={onChange}/>
+                            <input type = "text" name = "username" value = {form.username} onChange={onChange}/>
                         </label>
                         <div style={{ color: "black" }}>
                             <div>{errors.user}</div>
@@ -145,7 +145,7 @@ export default function SignUp() {
 
                         <label>
                             Owner Account
-                            <input type = "checkbox" name = "ownerAccount" value = {form.ownerAccount} onChange={onChange}/>
+                            <input type = "checkbox" name = "isOwner" value = {form.isOwner} onChange={onChange}/>
                         </label>
                         <div className="submitButton">
                             <ButtonDisplay disabled={disabled}>Submit</ButtonDisplay>
