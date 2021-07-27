@@ -9,11 +9,11 @@ const LabelDisplay = styled.div`
   font-family: "Arial Black";
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100%;
-  align-items: flex-start;
+  align-items: center;
   padding: 10px 0px;
-  text-align: left;
+  text-align: center;
   padding: 10rem;
   float: left;
 `
@@ -43,13 +43,14 @@ let schema = yup.object().shape({
 
 export default function SignUp() {
     const [users, setUsers] = useState([]);
+    let grabGreeting = "";
     const initialFormValues =
         {
 
             username: "",
             email: "",
             password: "",
-            isOwner: false
+            isOwner:false
         }
     const [form, setForm] = useState(initialFormValues);
     const [disabled, setDisabled] = useState(true);
@@ -57,7 +58,7 @@ export default function SignUp() {
         username: "",
         email: "",
         password: "",
-        isOwner: false
+        isOwner:false
     });
     const setFormErrors = (name, value) => {
         //console.log(name)
@@ -81,26 +82,49 @@ export default function SignUp() {
     const submit = (e) => {
         e.preventDefault();
 
-        const newUser = {
+        const newUser =
+            {
             username: form.username.trim(),
             email: form.email.trim(),
             password: form.password.trim(),
-            isOwner: form.isOwner,
+            isOwner:form.isOwner,
         };
-        //console.log('newUser', newUser);
+
+       /* const requestOptions =
+            {
+            method: 'POST',
+            headers: {    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, POST, DELETE, OPTIONS',
+                            'Access-Control-Allow-Headers': 'Content-Type',
+                             'Access-Control-Max-Age': '86400'},
+            body: JSON.stringify(newUser)
+        };*/
+        console.log('New User Breakpoint')
         axios
-            .post("https://saudi-market-app.herokuapp.com/api/auth/register", newUser)
+            .post("https://sauti-market-bw.herokuapp.com/api/auth/login", newUser)
+
+
             .then((res) => {
                 setForm(initialFormValues);
                 //console.log(res)
                 console.log('newUser', newUser);
+                console.log(res)
                 setUsers([...users, res.data]);
-                //console.log(users)
+                console.log(res.data.message);
+                grabGreeting = res.data.message
+                /*const Center = () => (
+                    <div>
+                        {Object.keys(res.data).map(obj => <div>{res.data[obj].name}</div>)}
+                        <h1>4</h1>
+                    </div>
+                );*/
+
+                //users.map(user => console.log('all users',user) )
+                //const map1 = array1.map(x => x * 2);
             })
             .catch((error) => {
                 //console.log( error.response.request.response )
                 console.log(error);
-                // console.log(error.response.request.response);
+                //console.log(error.response);
                 //console.log( error.response.request._response );
             } );
     };
@@ -108,6 +132,10 @@ export default function SignUp() {
     useEffect(() => {
         schema.isValid(form).then((valid) => setDisabled(!valid));
     }, [form]);
+
+    useEffect(() => {
+
+    })
     return (
         <React.Fragment>
             <div
@@ -119,6 +147,7 @@ export default function SignUp() {
                 <h1 className={"text-white mt-20 mx-auto text-5xl"} style={{textShadow: '0 0 1rem black'}}>
                     Create a Market Place Account
                 </h1>
+                 .
                 <form onSubmit={submit}>
                     <LabelDisplay>
                         <label>

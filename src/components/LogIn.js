@@ -77,11 +77,13 @@ export default function LogIn() {
             username: form.username.trim(),
             password: form.password.trim(),
         };
-        console.log(currentUser);
+        console.log('Current User', currentUser);
+        console.log('Breakpoint');
         axios
-            .post("https://saudi-market-app.herokuapp.com/api/auth/login", currentUser)
+            .post("https://sauti-market-bw.herokuapp.com/api/auth/login", currentUser)
             .then((res) => {
                 setForm(initialFormValues)
+
 
 
 
@@ -90,6 +92,7 @@ export default function LogIn() {
                 console.log(error);
             } );
     };
+
 
     //check is schema is valid and allow user to submit
     useEffect(() => {
