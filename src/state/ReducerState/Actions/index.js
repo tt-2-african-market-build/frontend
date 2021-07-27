@@ -68,10 +68,10 @@ export const createProducts = (newProduct, id) => (dispatch) => {
     .catch((err) => dispatch({ type: CREATE_PRODUCT_FAILURE, payload: err }));
 };
 
-export const fetchUser = () => (dispatch) => {
+export const fetchUser = (id) => (dispatch) => {
   dispatch({ type: FETCH_USER_LOADING });
   axiosWithAuth()
-    .get("https://team-amazing.herokuapp.com/api/auth/login")
+    .get(`/api/auth/login/${id}`)
     .then((res) => dispatch({ type: FETCH_USER_SUCCESS, payload: res.data }))
     .catch((err) => dispatch({ type: FETCH_USER_FAILURE, payload: err }));
 };

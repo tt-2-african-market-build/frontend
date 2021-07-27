@@ -1,5 +1,5 @@
 //this component is used to build the navigation bar
-import { AppBar } from "@material-ui/core";
+// import { AppBar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -37,14 +37,14 @@ export default function Nav() {
 
   return (
     <>
-      <AppBar
+      {/* <AppBar
         color="primary"
         style={{
           height: "10vh",
           backgroundColor: "#FAFAFA",
           width: "100vw",
         }}
-      >
+      > */}
         <div className={'flex flex-row mlfa-rotate-180'}>
           <Button onClick={handleDrawerOpen}>
             <MenuIcon className={"mt-6 ml-6"} />
@@ -54,7 +54,7 @@ export default function Nav() {
             <h1 className={" mt-6 ml-6 text-black text-4xl"}>Grubspace</h1>
           </Link>
         </div>
-      </AppBar>
+      {/* </AppBar> */}
       <Drawer
         color="primary"
         open={state.left}
@@ -69,15 +69,15 @@ export default function Nav() {
             <EmojiPeopleIcon />
             </ListItemIcon>
             <Link to={"signup"} onClick={handleDrawerClose}>
-              <ListItemText primary="SignUp" />
+              <ListItemText primary="Sign Up" />
             </Link>
           </ListItem>
           <ListItem button>
             <ListItemIcon>
              <LibraryBooksIcon />
             </ListItemIcon>
-            <Link to={"chef"} onClick={handleDrawerClose}>
-              <ListItemText primary="Chef's Manifesto" />
+            <Link to={"login"} onClick={handleDrawerClose}>
+              <ListItemText primary="Log In" />
             </Link>
           </ListItem>
           <ListItem button>
