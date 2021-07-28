@@ -100,6 +100,7 @@ export default function SignUp() {
         // setUsers([...users, res.data]);
         // console.log(res.data.message);
         localStorage.setItem("token", JSON.stringify(res.data.token));
+        localStorage.setItem("user_id", JSON.Number(res.data.id));
         form.isOwner === true ? push("/owner") : push("/products");
       })
       .catch((error) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosWithAuth from "../utils/axiosWithAuth";
 import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 const Title = styled.h1`
   font-size: 1.7em;
@@ -33,92 +34,158 @@ const EditSection = styled.div`
 `;
 
 const initialState = {
-  name: "",
+  item_name: "",
   location: "",
-  seller: "",
+  quantity: "",
   price: "",
+  description: "",
+  user_id: "",
 };
 
-export default function ProductsPage() {
+export default function OwnerPage() {
   const token = localStorage.getItem("token");
-  console.log(token);
-  const [itemsForSale, setItemsForSale] = useState([]);
+  const user_id = localStorage.getItem("user_id");
+  console.log( "Token and userId coming from local storage", token, user_id);
+  const [items, setItems] = useState([]);
+  const [newItem, setNewItem] = useState();
   const [itemToEdit, setItemToEdit] = useState(initialState);
-  const [editing, setEditing] = useState(false);
+  const [editItem, setEditItem] = useState(false);
+  const [adding, setAdding] = useState(false);
   const { push } = useHistory();
   const { id } = useParams();
+
+  const deleteHandler = (id) => {
+    axiosWithAuth()
+      .delete(`https://sauti-market-bw.herokuapp.com/api/items/${id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log( "Error message from owner", {err});
+      });
+  };
+
+  const handleChange = (e) => {
+    setItemToEdit({ ...itemToEdit, [e.target.name]: e.target.value });
+  };
+
+  const editItems = (items) => {
+    setEditItem(true);
+    setItemToEdit(items);
+  };
+  
+  const addItem = (e,) => {
+    itemToEdit.user_id = user_id;
+    e.preventDefault();
+    console.log("form values passing to post in new item", itemToEdit)
+    setAdding(true);
+    axios
+      .post("https://sauti-market-bw.herokuapp.com/api/items", itemToEdit)
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch(err => console.log("Error from owner on add", {err}))
+  };
+
+  const saveEdit = (e) => {
+    e.preventDefault();
+    axios
+      .put(
+        `https://sauti-market-bw.herokuapp.com/api/items/${itemToEdit.id}`,
+        itemToEdit
+      )
+      .then((res) => {
+        console.log("this is the put", res);
+        console.log(itemToEdit.id);
+        setEditItem(false);
+      })
+      .catch((error) => console.log("This is not working", error));
+  };
 
   useEffect(() => {
     axiosWithAuth()
       .get("/api/items")
       .then((res) => {
         console.log(res);
-        setItemsForSale(res.data);
+        setItems(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-    const deleteHandler = (id) => {
-      axiosWithAuth()
-        .delete(`https://sauti-market-bw.herokuapp.com/api/items/${id}`)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
-    const editOnClick = (item) => {
-      setEditing(true);
-      setItemToEdit(item);
-      // const item = itemsForSale.filter((product) => {
-      //   return product.id === id;
-      // });
-      // setNewItem(item[0]);
-      // push(`/product/${id}`);
-    };
-
-    const saveEdit = (e) => {
-      e.preventDefault();
-      axiosWithAuth()
-        .put(`/api/market/items/${itemToEdit.id}`, itemToEdit)
-        .then((res) => {
-          console.log("this is the put", res);
-          console.log(itemToEdit.id);
-          // setItemsForSale(res.data);
-          setItemsForSale([
-            ...itemsForSale.map((x) => {
-              if (x.id == res.data.id) {
-                x = res.data;
-                return x;
-              } else {
-                return x;
-              }
-            }),
-          ]);
-        })
-        .catch((error) => console.log("This is not working", error));
-    };
-
   return (
     <Wrapper>
       <Title>
         Welcome to African <Spam>Marketplace</Spam>
       </Title>
-      {itemsForSale.map((item) => {
+      <button onClick={() => setAdding(true)}>Add Item</button>
+      {adding && (
+        <form onSubmit={addItem}>
+          <legend>Add Product</legend>
+          <label>
+            Name:
+            <input
+              onChange={(e) =>
+                setItemToEdit({ ...itemToEdit, item_name: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            Location:
+            <input
+              onChange={(e) =>
+                setItemToEdit({ ...itemToEdit, location: e.target.value })
+              }
+              value={itemToEdit.location}
+            />
+          </label>
+          <label>
+            Quantity:
+            <input
+              onChange={(e) =>
+                setItemToEdit({ ...itemToEdit, quantity: e.target.value })
+              }
+              value={itemToEdit.quantity}
+            />
+          </label>
+          <label>
+            Price:
+            <input
+              onChange={(e) =>
+                setItemToEdit({ ...itemToEdit, price: e.target.value })
+              }
+              value={itemToEdit.price}
+            />
+          </label>
+          <label>
+            Description:
+            <input
+              onChange={(e) =>
+                setItemToEdit({ ...itemToEdit, description: e.target.value })
+              }
+              value={itemToEdit.description}
+            />
+          </label>
+          <EditSection className="button-row">
+            <button type="submit">Save</button>
+            <button onClick={() => setAdding(false)}>Cancel</button>
+          </EditSection>
+        </form>
+      )}
+
+      {items.map((item) => {
+        const { id, item_name, location, quantity, price, description } = item;
         return (
-          <Card key={item.id}>
-            <p>Name: {item.item_name}</p>
-            <p>Location: {item.location}</p>
-            <p>Quantity: {item.quantity}</p>
-            <p>Price: ${item.price}</p>
-            <p>Description: {item.description}</p>
+          <Card key={id}>
+            <p>Name: {item_name}</p>
+            <p>Location: {location}</p>
+            <p>Quantity: {quantity}</p>
+            <p>Price: ${price}</p>
+            <p>Description: {description}</p>
             <button
               onClick={() => {
-                editOnClick(item);
+                editItems(item);
               }}
             >
               Edit Item
@@ -134,20 +201,20 @@ export default function ProductsPage() {
           </Card>
         );
       })}
-      {editing &&
+      {editItem && (
         <form onSubmit={saveEdit}>
           <legend>Edit Product</legend>
           <label>
-            name:
+            Name:
             <input
               onChange={(e) =>
-                setItemToEdit({ ...itemToEdit, name: e.target.value })
+                setItemToEdit({ ...itemToEdit, item_name: e.target.value })
               }
-              value={itemToEdit.name}
+              value={itemToEdit.item_name}
             />
           </label>
           <label>
-            location:
+            Location:
             <input
               onChange={(e) =>
                 setItemToEdit({ ...itemToEdit, location: e.target.value })
@@ -156,16 +223,16 @@ export default function ProductsPage() {
             />
           </label>
           <label>
-            seller:
+            Quantity:
             <input
               onChange={(e) =>
-                setItemToEdit({ ...itemToEdit, owner: e.target.value })
+                setItemToEdit({ ...itemToEdit, quantity: e.target.value })
               }
-              value={itemToEdit.owner}
+              value={itemToEdit.quantity}
             />
           </label>
           <label>
-            price:
+            Price:
             <input
               onChange={(e) =>
                 setItemToEdit({ ...itemToEdit, price: e.target.value })
@@ -173,12 +240,22 @@ export default function ProductsPage() {
               value={itemToEdit.price}
             />
           </label>
+          <label>
+            Description:
+            <input
+              onChange={(e) =>
+                setItemToEdit({ ...itemToEdit, description: e.target.value })
+              }
+              value={itemToEdit.description}
+            />
+          </label>
+
           <EditSection className="button-row">
             <button type="submit">Save</button>
-            <button onClick={() => setEditing(false)}>Cancel</button>
+            <button onClick={() => setEditItem(false)}>Cancel</button>
           </EditSection>
         </form>
-      }
+      )}
     </Wrapper>
   );
 }

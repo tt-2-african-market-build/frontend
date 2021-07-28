@@ -43,7 +43,6 @@ const StyledDisplay = styled.div`
 export default function LogIn() {
   //set form to be empty to begin
   const { push } = useHistory();
-  const [userId, setUserId] = useState();
   const initialFormValues = {
     username: "",
     password: "",
@@ -89,9 +88,9 @@ export default function LogIn() {
       .post("https://sauti-market-bw.herokuapp.com/api/auth/login", form)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        console.log(res)
+        localStorage.setItem("user_id", res.data.id);
+        console.log("values for token and id set for login",res.data.token, res.data.id)
         let currentUserId = res.data.id;
-        localStorage.setItem("id", res.data.id);
         res.data.isOwner === true
             ? push("./owner", currentUserId)
             : push("/products");

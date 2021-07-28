@@ -53,6 +53,10 @@ export default function Nav() {
           <Link to="/">
             <h1 className={" mt-6 ml-6 text-black text-4xl"}>Grubspace</h1>
           </Link>
+          { localStorage.token === "" ? null :  
+          <button style={{marginLeft: "70rem"}}>
+            Logout
+          </button> }
         </div>
       {/* </AppBar> */}
       <Drawer

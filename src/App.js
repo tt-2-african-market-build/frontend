@@ -17,7 +17,7 @@ function App() {
         <Route path={"/signup"} component={AppSignUp} />
         <Route path={"/login"} component={AppLogIn} />
         <Route path={"/products"} component={ProductsPage} />
-        <Route path={"/owner"} component={Owner} />
+        <PrivateRoute path={"/owner"} component={Owner} />
         {/* <Route path={'/nutrition'} component={AppNutrition}/> */}
         {/* <Route path={'/cocktails'} component={AppCocktail}/> */}
       </Switch>
