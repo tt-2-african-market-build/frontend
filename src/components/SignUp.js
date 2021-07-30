@@ -4,6 +4,7 @@ import { useHistory, Link } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 import styled from "styled-components";
+import axiosWithAuth from "../utils/axiosWithAuth";
 
 const LabelDisplay = styled.div`
   ${"" /* color:whitesmoke; */}
@@ -48,7 +49,6 @@ let schema = yup.object().shape({
 });
 
 export default function SignUp() {
-  const [users, setUsers] = useState([]);
   const { push } = useHistory();
   const initialFormValues = {
     username: "",
@@ -82,29 +82,17 @@ export default function SignUp() {
 
   const submit = (e) => {
     e.preventDefault();
-
-    // const newUser =
-    //     {
-    //     username: form.username.trim(),
-    //     email: form.email.trim(),
-    //     password: form.password.trim(),
-    //     isOwner:form.isOwner,
-    // };
-    // console.log('New User Breakpoint')
-    axios
-      .post("https://sauti-market-bw.herokuapp.com/api/auth/register", form)
+    console.log("Values passed in", form)
+    axiosWithAuth()
+      .post("/api/auth/register", form)
       .then((res) => {
-        // setForm(initialFormValues);
-        // console.log('newUser', newUser);
         console.log(res);
-        // setUsers([...users, res.data]);
-        // console.log(res.data.message);
         localStorage.setItem("token", JSON.stringify(res.data.token));
-        localStorage.setItem("user_id", JSON.Number(res.data.id));
+        localStorage.setItem("user_id", res.data.id);
         form.isOwner === true ? push("/owner") : push("/products");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Unable to get to log in", { error });
       });
   };
 
@@ -112,7 +100,6 @@ export default function SignUp() {
     schema.isValid(form).then((valid) => setDisabled(!valid));
   }, [form]);
 
-  useEffect(() => {});
   return (
     <React.Fragment>
       <div

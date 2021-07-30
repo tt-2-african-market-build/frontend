@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axiosWithAuth from '../utils/axiosWithAuth'
-import { useHistory, useParams } from "react-router-dom";
+import axiosWithAuth from "../utils/axiosWithAuth";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { getProducts } from "../actions";
 
 const Title = styled.h1`
   font-size: 1.7em;
@@ -14,11 +16,11 @@ const Spam = styled.span`
 `;
 
 const Wrapper = styled.div`
-    display: flex;
-    width: 48%;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  width: 48%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 const Card = styled.div`
   display: flex;
@@ -28,159 +30,65 @@ const Card = styled.div`
   // flex-wrap: wrap;
 `;
 
-const EditSection = styled.div`
-  display: flex;
-`;
-
-const initialState = {
-  name: "",
-  location: "",
-  seller: "",
-  price: "",
-};
-
-export default function ProductsPage() {
+const ProductsPage = (props) => {
   const token = localStorage.getItem("token");
   console.log(token);
-  const [itemsForSale, setItemsForSale] = useState([]);
-  const [itemToEdit, setItemToEdit] = useState(initialState);
-  const [editing, setEditing] = useState(false);
+//   const [itemsForSale, setItemsForSale] = useState([]);
   const { push } = useHistory();
-  const { id } = useParams();
+  const { getProducts, data } = props;
+
+  const logOut = () => {
+    localStorage.clear("token");
+    console.log("You have logged out");
+    push("/");
+  };
 
   useEffect(() => {
-    axiosWithAuth()
-      .get("/api/items")
-      .then((res) => {
-        console.log(res);
-        setItemsForSale(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axiosWithAuth()
+    //   .get("/api/items")
+    //   .then((res) => {
+    //     console.log(res);
+    //     setItemsForSale(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    getProducts();
+    console.log(getProducts())
   }, []);
 
-//   const deleteHandler = (id) => {
-//     axiosWithAuth()
-//       .delete(
-//         `https://bw-african-marketplace-lucas.herokuapp.com/api/market/items/${id}`
-//       )
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-
-//   const editOnClick = (item) => {
-//     setEditing(true);
-//     setItemToEdit(item);
-//     // const item = itemsForSale.filter((product) => {
-//     //   return product.id === id;
-//     // });
-//     // setNewItem(item[0]);
-//     // push(`/product/${id}`);
-//   };
-
-//   const saveEdit = (e) => {
-//     e.preventDefault();
-//     axiosWithAuth()
-//       .put(`/api/market/items/${itemToEdit.id}`, itemToEdit)
-//       .then((res) => {
-//         console.log("this is the put", res);
-//         console.log(itemToEdit.id);
-//         // setItemsForSale(res.data);
-//         setItemsForSale([
-//           ...itemsForSale.map((x) => {
-//             if (x.id == res.data.id) {
-//               x = res.data;
-//               return x;
-//             } else {
-//               return x;
-//             }
-//           }),
-//         ]);
-//       })
-//       .catch((error) => console.log("This is not working", error));
-//   };
-
   return (
-    <Wrapper>
-      <Title>
-        Welcome to African <Spam>Marketplace</Spam>
-      </Title>
-      {itemsForSale.map((item) => {
-        return (
-          <Card key={item.id}>
-            <p>Name: {item.item_name}</p>
-            <p>Location: {item.location}</p>
-            <p>Quantity: {item.quantity}</p>
-            <p>Price: ${item.price}</p>
-            <p>Description: {item.description}</p>
-            {/* <button
-              onClick={() => {
-                editOnClick(item);
-              }}
-            >
-              Edit Item
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteHandler(item.id);
-              }}
-            >
-              Delete Item
-            </button> */}
-          </Card>
-        );
-      })}
-      {editing && (
-        {/* <form onSubmit={saveEdit}>
-          <legend>Edit Product</legend>
-          <label>
-            name:
-            <input
-              onChange={(e) =>
-                setItemToEdit({ ...itemToEdit, name: e.target.value })
-              }
-              value={itemToEdit.name}
-            />
-          </label>
-          <label>
-            location:
-            <input
-              onChange={(e) =>
-                setItemToEdit({ ...itemToEdit, location: e.target.value })
-              }
-              value={itemToEdit.location}
-            />
-          </label>
-          <label>
-            seller:
-            <input
-              onChange={(e) =>
-                setItemToEdit({ ...itemToEdit, owner: e.target.value })
-              }
-              value={itemToEdit.owner}
-            />
-          </label>
-          <label>
-            price:
-            <input
-              onChange={(e) =>
-                setItemToEdit({ ...itemToEdit, price: e.target.value })
-              }
-              value={itemToEdit.price}
-            />
-          </label>
-          <EditSection className="button-row">
-            <button type="submit">Save</button>
-            <button onClick={() => setEditing(false)}>Cancel</button>
-          </EditSection>
-        </form> */}
-      )}
-    </Wrapper>
+    <div>
+      <button onClick={logOut} style={{ marginLeft: "85rem" }}>
+        Logout
+      </button>
+      <Wrapper>
+        <Title>
+          Welcome to African <Spam>Marketplace</Spam>
+        </Title>
+        {data.map((item) => {
+          return (
+            <Card key={item.id}>
+              <p>Name: {item.item_name}</p>
+              <p>Location: {item.location}</p>
+              <p>Quantity: {item.quantity}</p>
+              <p>Price: ${item.price}</p>
+              <p>Description: {item.description}</p>
+            </Card>
+          );
+        })}
+      </Wrapper>
+    </div>
   );
 }
+
+function mapStateToProps(state) {
+    console.log(state)
+    return {
+      data: state.productReducer.data,
+      fetchingProducts: state.productReducer.fetchingProducts,
+      error: state.productReducer.error,
+    };
+}
+
+export default connect(mapStateToProps, { getProducts })(ProductsPage)

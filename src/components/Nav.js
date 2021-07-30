@@ -14,7 +14,8 @@ import LocalBarIcon from '@material-ui/icons/LocalBar';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -53,10 +54,6 @@ export default function Nav() {
           <Link to="/">
             <h1 className={" mt-6 ml-6 text-black text-4xl"}>Grubspace</h1>
           </Link>
-          { localStorage.token === "" ? null :  
-          <button style={{marginLeft: "70rem"}}>
-            Logout
-          </button> }
         </div>
       {/* </AppBar> */}
       <Drawer

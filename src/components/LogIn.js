@@ -4,6 +4,9 @@ import * as yup from "yup";
 import axios from "axios";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import axiosWithAuth from "../utils/axiosWithAuth";
+import { signinReducer } from "../reducers/userReducer";
+import { connect } from "react-redux";
 
 let schema = yup.object().shape({
   username: yup
@@ -40,7 +43,7 @@ const StyledDisplay = styled.div`
   float: right;
   color: antiquewhite};
 `;
-export default function LogIn() {
+const LogIn = (props) => {
   //set form to be empty to begin
   const { push } = useHistory();
   const initialFormValues = {
@@ -72,31 +75,28 @@ export default function LogIn() {
 
     setFormErrors(name, realValue);
     setForm({ ...form, [name]: realValue });
-    // console.log(`${name} of type ${type} has changed to ${realValue}`);
   };
 
   const submit = (e) => {
     e.preventDefault();
-    // console.log(e);
-    // const currentUser = {
-    //   username: form.username.trim(),
-    //   password: form.password.trim(),
-    // };
-    // console.log("Current User", currentUser);
-    // console.log("Breakpoint");
-    axios
-      .post("https://sauti-market-bw.herokuapp.com/api/auth/login", form)
+    console.log("values in form", form);
+    axiosWithAuth()
+      .post("/api/auth/login", form)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", res.data.id);
-        console.log("values for token and id set for login",res.data.token, res.data.id)
+        console.log(
+          "values for token and id set for login",
+          res.data.token,
+          res.data.id
+        );
         let currentUserId = res.data.id;
         res.data.isOwner === true
-            ? push("./owner", currentUserId)
-            : push("/products");
+          ? push("./owner", currentUserId)
+          : push("/products");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error while logging in", { error });
       });
   };
 
@@ -160,4 +160,12 @@ export default function LogIn() {
       </div>
     </React.Fragment>
   );
+};
+
+function mapStateToProps(state) {
+  return {
+    data: state.signinReducer.data,
+  };
 }
+
+export default connect(mapStateToProps, {  }) (LogIn)
