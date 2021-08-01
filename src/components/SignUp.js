@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
+// import axios from "axios";
 import styled from "styled-components";
 import axiosWithAuth from "../utils/axiosWithAuth";
 

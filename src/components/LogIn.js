@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import * as yup from "yup";
-import axios from "axios";
+// import axios from "axios";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import axiosWithAuth from "../utils/axiosWithAuth";
-import { signinReducer } from "../reducers/userReducer";
-import { connect } from "react-redux";
+// import { fetchUser } from "../actions/userActions";
+// import { connect } from "react-redux";
 
 let schema = yup.object().shape({
   username: yup
@@ -43,7 +43,7 @@ const StyledDisplay = styled.div`
   float: right;
   color: antiquewhite};
 `;
-const LogIn = (props) => {
+const LogIn = () => {
   //set form to be empty to begin
   const { push } = useHistory();
   const initialFormValues = {
@@ -162,10 +162,11 @@ const LogIn = (props) => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    data: state.signinReducer.data,
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     data: state.userReducer.data,
+//   };
+// }
 
-export default connect(mapStateToProps, {  }) (LogIn)
+export default (LogIn);
+// connect(mapStateToProps, { fetchUser });

@@ -5,13 +5,15 @@ export {
   POST_PRODUCT_SUCCESS,
   POST_PRODUCT_FAIL,
   getProducts,
-  postProduct,
+//   postProduct,
+//   updateProduct,
 } from "./productActions";
 
-export {
-  FETCH_USER_START,
-  FETCH_USER_SUCCESS,
-  FETCH_USER_FAILURE,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_FAIL,
-} from "./userActions";
+// export {
+//   FETCH_USER_START,
+//   FETCH_USER_SUCCESS,
+//   FETCH_USER_FAILURE,
+//   DELETE_USER_SUCCESS,
+//   DELETE_USER_FAIL,
+//   fetchUser,
+// } from "./userActions";

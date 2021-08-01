@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axiosWithAuth from "../utils/axiosWithAuth";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
@@ -33,7 +32,7 @@ const Card = styled.div`
 const ProductsPage = (props) => {
   const token = localStorage.getItem("token");
   console.log(token);
-//   const [itemsForSale, setItemsForSale] = useState([]);
+  //   const [itemsForSale, setItemsForSale] = useState([]);
   const { push } = useHistory();
   const { getProducts, data } = props;
 
@@ -54,7 +53,7 @@ const ProductsPage = (props) => {
     //     console.log(err);
     //   });
     getProducts();
-    console.log(getProducts())
+    console.log(getProducts());
   }, []);
 
   return (
@@ -67,28 +66,32 @@ const ProductsPage = (props) => {
           Welcome to African <Spam>Marketplace</Spam>
         </Title>
         {data.map((item) => {
+          const { id, item_name, location, quantity, price, description, image_url } =
+            item;
           return (
-            <Card key={item.id}>
-              <p>Name: {item.item_name}</p>
-              <p>Location: {item.location}</p>
-              <p>Quantity: {item.quantity}</p>
-              <p>Price: ${item.price}</p>
-              <p>Description: {item.description}</p>
+            <Card key={id}>
+              <img src={image_url} alt="img" />
+              <p>Name: {item_name}</p>
+              <p>Location: {location}</p>
+              <p>Quantity: {quantity}</p>
+              <p>Price: ${price}</p>
+              <p>Description: {description}</p>
+              <br />
             </Card>
           );
         })}
       </Wrapper>
     </div>
   );
-}
+};
 
 function mapStateToProps(state) {
-    console.log(state)
-    return {
-      data: state.productReducer.data,
-      fetchingProducts: state.productReducer.fetchingProducts,
-      error: state.productReducer.error,
-    };
+  console.log(state);
+  return {
+    data: state.productReducer.data,
+    fetchingProducts: state.productReducer.fetchingProducts,
+    error: state.productReducer.error,
+  };
 }
 
-export default connect(mapStateToProps, { getProducts })(ProductsPage)
+export default connect(mapStateToProps, { getProducts })(ProductsPage);

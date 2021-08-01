@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, } from "react";
 import axiosWithAuth from "../utils/axiosWithAuth";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-scroll";
+import { connect } from "react-redux";
+import { getProducts } from "../actions";
 
 const Title = styled.h1`
   font-size: 1.7em;
@@ -35,6 +37,7 @@ const EditSection = styled.div`
 `;
 
 const initialState = {
+  image_url: "",
   item_name: "",
   location: "",
   quantity: "",
@@ -43,15 +46,15 @@ const initialState = {
   user_id: "",
 };
 
-export default function OwnerPage() {
+const OwnerPage = (props) => {
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("user_id");
   console.log("Token and userId coming from local storage", token, user_id);
-  const [items, setItems] = useState([]);
   const [itemToEdit, setItemToEdit] = useState(initialState);
   const [editItem, setEditItem] = useState(false);
   const [adding, setAdding] = useState(false);
   const { push } = useHistory();
+  const {getProducts,  data } = props;
 
   const deleteHandler = (id) => {
     axiosWithAuth()
@@ -107,15 +110,16 @@ export default function OwnerPage() {
   };
 
   useEffect(() => {
-    axiosWithAuth()
-      .get("/api/items")
-      .then((res) => {
-        console.log(res);
-        setItems(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axiosWithAuth()
+    //   .get("/api/items")
+    //   .then((res) => {
+    //     console.log(res);
+    //     setItems(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    getProducts();
   }, []);
 
   return (
@@ -184,11 +188,12 @@ export default function OwnerPage() {
           </form>
         )}
 
-        {items.map((item) => {
-          const { id, item_name, location, quantity, price, description } =
+        {data.map((item) => {
+          const { id, item_name, location, quantity, price, description, image_url } =
             item;
           return (
             <Card key={id}>
+              <img src={image_url} alt="img" />
               <p>Name: {item_name}</p>
               <p>Location: {location}</p>
               <p>Quantity: {quantity}</p>
@@ -213,6 +218,7 @@ export default function OwnerPage() {
               >
                 Delete Item
               </button>
+              <br/>
             </Card>
           );
         })}
@@ -277,3 +283,12 @@ export default function OwnerPage() {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    data: state.productReducer.data
+  }
+}
+
+
+export default connect(mapStateToProps, { getProducts }) (OwnerPage)
