@@ -1,12 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import * as yup from "yup";
-// import axios from "axios";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import axiosWithAuth from "../utils/axiosWithAuth";
-// import { fetchUser } from "../actions/userActions";
-// import { connect } from "react-redux";
 
 let schema = yup.object().shape({
   username: yup
@@ -18,7 +15,7 @@ let schema = yup.object().shape({
     .required("Please Enter a password")
     .min(8, "Enter at least 8 Characters for Password"),
 });
-const ButtonDisplay = styled.button` 
+const ButtonDisplay = styled.button`
   background-color: black;
   color: white;
   font-size: 20px;
@@ -29,7 +26,9 @@ const ButtonDisplay = styled.button`
   &:disabled {
     color: grey;
     opacity: 0.7;
-    cursor: default;`;
+    cursor: default;
+  }
+`;
 
 const StyledDisplay = styled.div`
   padding-top: 120px;
@@ -41,7 +40,6 @@ const StyledDisplay = styled.div`
   padding: 35px 15px;
   text-align: center;
   float: right;
-  color: antiquewhite};
 `;
 const LogIn = () => {
   //set form to be empty to begin
@@ -117,9 +115,10 @@ const LogIn = () => {
         </h1>
         <StyledDisplay>
           <form onSubmit={submit}>
-            <label>
-              User:
+            <label style={{ color: "white" }}>
+              Username:
               <input
+                style={{ color: "black" }}
                 type="text"
                 name="username"
                 value={form.username}
@@ -127,9 +126,10 @@ const LogIn = () => {
               />
             </label>
 
-            <label>
+            <label style={{ color: "white" }}>
               Password:
               <input
+                style={{ color: "black" }}
                 type="text"
                 name="password"
                 value={form.password}
@@ -148,25 +148,9 @@ const LogIn = () => {
           </form>
         </StyledDisplay>
       </div>
-
-      <div
-        className={
-          "bg-white h-96 w-screen flex flex-col text-center justify-center align-center"
-        }
-      >
-        <h3 className={"text-gray-800 mx-auto -mt-20 text-4xl"}>
-          This is the Chef Spot!!
-        </h3>
-      </div>
     </React.Fragment>
   );
 };
 
-// function mapStateToProps(state) {
-//   return {
-//     data: state.userReducer.data,
-//   };
-// }
 
-export default (LogIn);
-// connect(mapStateToProps, { fetchUser });
+export default LogIn;

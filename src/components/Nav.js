@@ -10,8 +10,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
-import LocalBarIcon from '@material-ui/icons/LocalBar';
-import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -38,24 +36,15 @@ export default function Nav() {
 
   return (
     <>
-      {/* <AppBar
-        color="primary"
-        style={{
-          height: "10vh",
-          backgroundColor: "#FAFAFA",
-          width: "100vw",
-        }}
-      > */}
         <div className={'flex flex-row mlfa-rotate-180'}>
           <Button onClick={handleDrawerOpen}>
             <MenuIcon className={"mt-6 ml-6"} />
           </Button>
 
           <Link to="/">
-            <h1 className={" mt-6 ml-6 text-black text-4xl"}>Sauti Marketplace</h1>
+            <h1 className={" mt-6 ml-6 text-black text-4xl"}>Sauti</h1>
           </Link>
         </div>
-      {/* </AppBar> */}
       <Drawer
         color="primary"
         open={state.left}
@@ -83,29 +72,12 @@ export default function Nav() {
           </ListItem>
           <ListItem button>
             <ListItemIcon>
-             <LocalDiningIcon />
-            </ListItemIcon>
-            <Link to={"recipes"} onClick={handleDrawerClose}>
-              <ListItemText primary="Recipe Box" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
             <LocalGroceryStoreIcon />
             </ListItemIcon>
-            <Link to={"nutrition"} onClick={handleDrawerClose}>
-              <ListItemText primary="Nutrition Corner" />
+            <Link to={"visitor"} onClick={handleDrawerClose}>
+              <ListItemText primary="Marketplace" />
             </Link>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-            <LocalBarIcon/>
-            </ListItemIcon>
-            <Link to={"cocktails"} onClick={handleDrawerClose}>
-              <ListItemText primary="Cocktail Culture" />
-            </Link>
-          </ListItem>
-      
+          </ListItem>      
         </List>
       </Drawer>
     </>

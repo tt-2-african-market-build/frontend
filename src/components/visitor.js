@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProducts } from "../actions";
 
@@ -32,29 +32,27 @@ const Card = styled.div`
   border: 4px solid rgb(42, 42, 42);
 `;
 
-
 const ProductsPage = (props) => {
   const token = localStorage.getItem("token");
   console.log(token);
-  const { push } = useHistory();
   const { getProducts, data } = props;
 
-  const logOut = () => {
-    localStorage.clear("token");
-    console.log("You have logged out");
-    push("/login");
-  };
-
   useEffect(() => {
+    // axiosWithAuth()
+    //   .get("/api/items")
+    //   .then((res) => {
+    //     console.log(res);
+    //     setItemsForSale(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
     getProducts();
     console.log(getProducts());
   }, []);
 
   return (
     <div className="products-container">
-      <button onClick={logOut} style={{ marginLeft: "85rem", textDecorationLine: "underline" }}>
-        Logout
-      </button>
       <Wrapper>
         <Title>
           <Span2>Welcome</Span2> to African <Span>Marketplace</Span>
@@ -78,6 +76,8 @@ const ProductsPage = (props) => {
               <p>Quantity: {quantity}</p>
               <p>Price: ${price}</p>
               <p>Description: {description}</p>
+              <br/>
+              <i>Interested? <Link className="button" to="signup">Sign up</Link></i>
               <br />
             </Card>
           );

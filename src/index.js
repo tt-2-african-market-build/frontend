@@ -6,7 +6,6 @@ import './index.css';
 //2. import wrapper and store
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux'
-import {appReducer} from './state/ReducerState'
 import rootReducer from "./reducers/index"
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';

@@ -10,11 +10,15 @@ import { getProducts } from "../actions";
 const Title = styled.h1`
   font-size: 1.7em;
   text-align: center;
-  color: rgb(250, 179, 51);
+  font-weight: bold;
 `;
 
-const Spam = styled.span`
+const Span = styled.span`
   color: rgb(29, 155, 76);
+`;
+
+const Span2 = styled.span`
+  color: red;
 `;
 
 const Wrapper = styled.div`
@@ -23,13 +27,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+  margin: auto;
 `;
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  border: 2px solid rgb(42, 42, 42);
-  // width: 48%;
-  // flex-wrap: wrap;
+  border: 4px solid rgb(42, 42, 42);
 `;
 
 const EditSection = styled.div`
@@ -123,18 +126,29 @@ const OwnerPage = (props) => {
   }, []);
 
   return (
-    <div>
-      <button onClick={logOut} style={{ marginLeft: "85rem" }}>
+    <div className="products-container">
+      <button
+        className="button"
+        onClick={logOut}
+        style={{ marginLeft: "85rem" }}
+      >
         Logout
       </button>
       <Wrapper>
         <Title>
-          Welcome to African <Spam>Marketplace</Spam>
+          <Span2>Welcome</Span2> to African <Span>Marketplace</Span>
         </Title>
-        <button onClick={() => setAdding(true)}>Add Item</button>
+        <br />
+        <button
+          className="button"
+          onClick={() => (!adding ? setAdding(true) : setAdding(false))}
+        >
+          Add Item
+        </button>
         {adding && (
           <form onSubmit={addItem}>
-            <legend>Add Product</legend>
+            <legend style={{textDecorationLine: "underline"}}>Add Product</legend>
+            <br />
             <label>
               Name:
               <input
@@ -143,6 +157,7 @@ const OwnerPage = (props) => {
                 }
               />
             </label>
+
             <label>
               Location:
               <input
@@ -152,6 +167,7 @@ const OwnerPage = (props) => {
                 value={itemToEdit.location}
               />
             </label>
+
             <label>
               Quantity:
               <input
@@ -162,6 +178,8 @@ const OwnerPage = (props) => {
                 value={itemToEdit.quantity}
               />
             </label>
+            <br />
+            <br />
             <label>
               Price:
               <input
@@ -172,6 +190,7 @@ const OwnerPage = (props) => {
                 value={itemToEdit.price}
               />
             </label>
+
             <label>
               Description:
               <input
@@ -181,16 +200,39 @@ const OwnerPage = (props) => {
                 value={itemToEdit.description}
               />
             </label>
+
+            <label>
+              Image:
+              <input
+                onChange={(e) =>
+                  setItemToEdit({ ...itemToEdit, image_url: e.target.value })
+                }
+                value={itemToEdit.image_url}
+              />
+            </label>
+            <br />
+            <br />
             <EditSection className="button-row">
-              <button type="submit">Save</button>
-              <button onClick={() => setAdding(false)}>Cancel</button>
+              <button className="button" type="submit">
+                Save
+              </button>
+              <button className="button" onClick={() => setAdding(false)}>
+                Cancel
+              </button>
             </EditSection>
           </form>
         )}
-
+        <br />
         {data.map((item) => {
-          const { id, item_name, location, quantity, price, description, image_url } =
-            item;
+          const {
+            id,
+            item_name,
+            location,
+            quantity,
+            price,
+            description,
+            image_url,
+          } = item;
           return (
             <Card key={id}>
               <img src={image_url} alt="img" />
@@ -199,7 +241,8 @@ const OwnerPage = (props) => {
               <p>Quantity: {quantity}</p>
               <p>Price: ${price}</p>
               <p>Description: {description}</p>
-              <button>
+              <br/>
+              <button className="button">
                 <Link
                   to="editForm"
                   smooth={true}
@@ -210,7 +253,8 @@ const OwnerPage = (props) => {
                   Edit Item
                 </Link>
               </button>
-              <button
+              <br/>
+              <button className="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   deleteHandler(item.id);
@@ -218,22 +262,23 @@ const OwnerPage = (props) => {
               >
                 Delete Item
               </button>
-              <br/>
+              <br />
             </Card>
           );
         })}
         {editItem && (
           <form id="editForm" onSubmit={saveEdit}>
-            <legend>Edit Product</legend>
+            <legend style={{textDecorationLine: "underline"}}>Edit Product</legend>
+            <br />
             <label>
               Name:
               <input
                 onChange={(e) =>
                   setItemToEdit({ ...itemToEdit, item_name: e.target.value })
                 }
-                value={itemToEdit.item_name}
               />
             </label>
+
             <label>
               Location:
               <input
@@ -243,6 +288,7 @@ const OwnerPage = (props) => {
                 value={itemToEdit.location}
               />
             </label>
+
             <label>
               Quantity:
               <input
@@ -253,6 +299,8 @@ const OwnerPage = (props) => {
                 value={itemToEdit.quantity}
               />
             </label>
+            <br />
+            <br />
             <label>
               Price:
               <input
@@ -263,6 +311,7 @@ const OwnerPage = (props) => {
                 value={itemToEdit.price}
               />
             </label>
+
             <label>
               Description:
               <input
@@ -273,9 +322,24 @@ const OwnerPage = (props) => {
               />
             </label>
 
+            <label>
+              Image:
+              <input
+                onChange={(e) =>
+                  setItemToEdit({ ...itemToEdit, image_url: e.target.value })
+                }
+                value={itemToEdit.image_url}
+              />
+            </label>
+            <br />
+            <br />
             <EditSection className="button-row">
-              <button type="submit">Save</button>
-              <button onClick={() => setEditItem(false)}>Cancel</button>
+              <button className="button" type="submit">
+                Save
+              </button>
+              <button className="button" onClick={() => setEditItem(false)}>
+                Cancel
+              </button>
             </EditSection>
           </form>
         )}

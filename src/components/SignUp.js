@@ -7,7 +7,6 @@ import styled from "styled-components";
 import axiosWithAuth from "../utils/axiosWithAuth";
 
 const LabelDisplay = styled.div`
-  ${"" /* color:whitesmoke; */}
   font-family: "Arial Black";
   display: flex;
   flex-direction: column;
@@ -107,7 +106,6 @@ export default function SignUp() {
           "form-container bg-black w-screen text-center flex flex-col justify-center align-center leading-5"
         }
       >
-        {" "}
         <h1
           className={"text-white mt-20 mx-auto text-5xl"}
           style={{ textShadow: "0 0 1rem black" }}
@@ -118,7 +116,7 @@ export default function SignUp() {
         <form onSubmit={submit}>
           <LabelDisplay>
             <label>
-              User:
+              Username: 
               <input
                 type="text"
                 name="username"
@@ -127,7 +125,7 @@ export default function SignUp() {
               />
             </label>
             <div style={{ color: "black" }}>
-              <div>{errors.user}</div>
+              <div>{errors.username}</div>
             </div>
             <label>
               Email:
@@ -171,11 +169,7 @@ export default function SignUp() {
           </LabelDisplay>
         </form>
       </div>
-      <div
-        className={
-          "bg-white h-96 w-screen flex flex-col justify-center text-center align-center"
-        }
-      ></div>
+      <i>Want to sell your own items? Register as an Owner</i>
     </React.Fragment>
   );
 }

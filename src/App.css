@@ -7,20 +7,8 @@
 
 html {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   overflow-x: hidden;
-}
-
-.recipes {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
 }
 
 h1 {
@@ -32,8 +20,9 @@ h1 {
 h2 {
   font-family: "Ringside Extra Wide SSm A", "Ringside Extra Wide SSm B";
   font-style: normal;
-  font-weight: 500;
+  font-weight: bold;
   text-shadow: 0 0 2.5rem black;
+  color: aliceblue;
 }
 
 h3 {
@@ -44,48 +33,43 @@ h3 {
 }
 
 .home {
-  background-image: url("./assets/pasta.jpg");
-}
-
-.recipes-container {
-  background-image: url("./assets/recipe.jpg");
-  background-size: cover;
-  background-position: center center;
-  height: 34rem;
+  background-image: url("./assets/home.jpg");
+  background-size: contain;
+  background-repeat: round;
 }
 
 .form-container {
-  background-image: url("./assets/market.png");
-  background-size: cover;
-  background-position: 25% 25%;
+  background-image: url("./assets/market.jpg");
+  background-size: auto;
+  /* background-repeat: round; */
+
+  background-position: 20% 52%;
   height: 39rem;
 }
 
 .signup-container {
-  background-image: url("./assets/signup.png");
+  background-image: url("./assets/login.jpg");
   background-size: cover;
   background-position: center center;
   height: 39rem;
 }
 
-.nutrition-container {
-  background-image: url("./assets/nutrition.jpg");
-  background-size: cover;
-  background-position: 25% 25%;
-  height: 34rem;
-}
-
-.cocktail-container {
-  background-image: url("./assets/cocktail.jpg");
-  background-size: cover;
-  background-position: center center;
-  height: 34rem;
+.products-container {
+  background-color: blanchedalmond;
 }
 
 .progress {
   color: black;
 }
 
-label{
+label {
   padding-bottom: 15px;
+}
+
+.button {
+  border: black;
+  background-color: black;
+  color: white;
+  margin: auto;
+  padding: 0.4rem;
 }
